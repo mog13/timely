@@ -10,7 +10,7 @@
 angular.module('timelyApp')
   .service('activitiesService', function () {
         var that = this;
-        that.activities = [{name:'distraction',color:'red',duration:0}];
+        that.activities = [{name:'distraction',colour:'red',duration:0}];
 
         that.addNewActivity = function(_name,_col,_duration)
         {
@@ -35,7 +35,7 @@ angular.module('timelyApp')
 
         that.increaseActivity = function(name, amount){
             amount = amount|| 1;
-            that.getActivityByName().duration += amount;
+            that.getActivityByName(name).duration += amount;
         };
 
 
@@ -52,6 +52,7 @@ angular.module('timelyApp')
             var total = that.getTotalDuration();
             return (amount/total)*100;
         }
+
 
 
   });

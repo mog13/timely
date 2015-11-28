@@ -1,23 +1,39 @@
 <div class="jumbotron">
-  <h1>'Allo, 'Allo!</h1>
-  <p class="lead">
-    <img src="images/yeoman.png" alt="I'm Yeoman"><br>
-    Always a pleasure scaffolding your apps.
-  </p>
-  <p><a class="btn btn-lg btn-success" ng-href="#/">Splendid!<span class="glyphicon glyphicon-ok"></span></a></p>
+    <h1>'Allo, 'Allo!</h1>
+
+    <p class="lead">
+        <img src="images/yeoman.png" alt="I'm Yeoman"><br>
+        Always a pleasure scaffolding your apps.
+    </p>
+
+    <p><a class="btn btn-lg btn-success" ng-href="#/">Splendid!<span class="glyphicon glyphicon-ok"></span></a></p>
 </div>
 
-<div class="row marketing">
-  <h4>HTML5 Boilerplate</h4>
-  <p>
-    HTML5 Boilerplate is a professional front-end template for building fast, robust, and adaptable web apps or sites.
-  </p>
+<div class="row info">
+    <div class="activity-row input-row">
+        <div class="activity-colour" id="new-colour" ng-style="{ 'background-color' : newActivity.colour }">
+        </div>
+        <div class="activity-name">
+            <input type="text" ng-model="newActivity.name">
+        </div>
 
-  <h4>Angular</h4>
-  <p>
-    AngularJS is a toolset for building the framework most suited to your application development.
-  </p>
+        <div class="button-div">
+            <button class="btn btn-primary btn-lg" ng-click="addNewActivity()">ADD</button>
+        </div>
+    </div>
+<hr>
+    <div ng-repeat="activity in getActivities()"
+         class="activity-row"
+         ng-class="isSelected(activity)?'selected':''"
+         ng-click="setSelected(activity)">
+        <div class="activity-colour" ng-style="{ 'background-color' : activity.colour }">
+        </div>
+        <div class="activity-name">
+            <h3>{{activity.name}}</h3>
+        </div>
 
-  <h4>Karma</h4>
-  <p>Spectacular Test Runner for JavaScript.</p>
+        <div class="activity-percentage">
+            <h3>{{convertTime(activity.duration)}}</h3>
+        </div>
+    </div>
 </div>
