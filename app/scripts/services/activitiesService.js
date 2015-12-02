@@ -10,14 +10,14 @@
 angular.module('timelyApp')
   .service('activitiesService', function () {
         var that = this;
-        that.activities = [{name:'distraction',colour:'red',duration:0}];
+        that.activities = [{name:'distraction',colour:'red',duration:1}];
 
         that.addNewActivity = function(_name,_col,_duration)
         {
           var activity = {};
             activity.name = _name;
             activity.colour = _col;
-            activity.duration = _duration ||0;
+            activity.duration = _duration ||1;
             activity.id =   that.activities.length;
             that.activities.push(activity);
         };

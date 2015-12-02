@@ -66,4 +66,6 @@ angular.module('timelyApp')
             return hours+ ":" + mins+ ":" + seconds;
         };
 
+
+
   });
