@@ -10,12 +10,10 @@
 angular.module('timelyApp')
   .controller('MainCtrl', function ($scope,activitiesService) {
 
-        $scope.selectedActivity = activitiesService.activities[0];
-
-        setInterval(function() {
-
-            activitiesService.increaseActivity($scope.selectedActivity.name,1);
-            $scope.$apply();}, 1000);
+        activitiesService.addNewActivity('test',Please.make_color({
+            golden: false, //disable default
+            full_random: true //go full random
+        }),5);
 
         $scope.newActivity= {
             name:'',
@@ -25,7 +23,13 @@ angular.module('timelyApp')
             })
         };
 
-        activitiesService.addNewActivity('test','yellow',5);
+        setInterval(function() {
+            activitiesService.increaseActivity(1);
+            $scope.$apply();}, 1000);
+
+
+
+
 
         $scope.getActivities =function(){
             return activitiesService.activities;
@@ -36,11 +40,11 @@ angular.module('timelyApp')
         };
 
         $scope.setSelected = function(activity){
-            $scope.selectedActivity = activity;
+            activitiesService.setSelectedActivity(activity);
         };
 
         $scope.isSelected = function(activity){
-          return(activity.id === $scope.selectedActivity.id);
+          return(activity.id === activitiesService.selectedActivity.id);
         };
 
         $scope.addNewActivity = function(){

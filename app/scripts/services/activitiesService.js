@@ -10,8 +10,9 @@
 angular.module('timelyApp')
   .service('activitiesService', function () {
         var that = this;
-        that.activities = [{name:'distraction',colour:'red',duration:1}];
 
+        that.activities = [{name:'distraction',colour:'#B10409',duration:1,selected:true}];
+        that.selectedActivity = that.activities[0];
         that.addNewActivity = function(_name,_col,_duration)
         {
           var activity = {};
@@ -33,9 +34,9 @@ angular.module('timelyApp')
             return null;
         };
 
-        that.increaseActivity = function(name, amount){
+        that.increaseActivity = function( amount){
             amount = amount|| 1;
-            that.getActivityByName(name).duration += amount;
+            that.selectedActivity.duration += amount;
         };
 
 
@@ -51,7 +52,15 @@ angular.module('timelyApp')
             var amount =  that.getActivityByName(name).duration;
             var total = that.getTotalDuration();
             return (amount/total)*100;
-        }
+        };
+
+        that.setSelectedActivity= function(activity){
+            for(var i = 0, len = that.activities.length; i < len; i++){
+                that.activities[i].selected = false
+            }
+            that.selectedActivity = activity;
+            that.selectedActivity.selected = true;
+        };
 
 
 
