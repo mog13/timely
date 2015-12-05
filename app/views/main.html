@@ -1,34 +1,49 @@
-<div class="jumbotron">
- <div id="chart">
-     <pie-directive segdata="getActivities()" backcol="#51697F" />
- </div>
-</div>
+<div class="row container-fluid">
+  <h1 id="title">TCK TRK</h1>
+  </div>
+<div class="row container-fluid">
 
-<div class="row info">
-    <div class="activity-row input-row">
-        <div class="activity-colour" id="new-colour" ng-style="{ 'background-color' : newActivity.colour }">
-        </div>
-        <div class="activity-name">
-            <input type="text" ng-model="newActivity.name">
-        </div>
-
-        <div class="button-div">
-            <button class="btn btn-primary btn-lg" ng-click="addNewActivity()">ADD</button>
-        </div>
+  <div class="col-xs-12 col-md-6 col-md-push-6">
+    <div id="chart">
+      <pie-directive segdata="getActivities()" backcol="#51697F" />
     </div>
-<hr>
+  </div>
+
+  <div class="col-xs-6 col-xs-offset-3 col-md-6 col-md-offset-0 col-md-pull-6 activities-container">
+    <div class="activity-row input-row">
+      <div class="activity-colour input-colour" id="new-colour" ng-style="{ 'background-color' : newActivity.colour }">
+      </div>
+      <div class="activity-name">
+        <input type="text" ng-model="newActivity.name">
+      </div>
+
+      <div class="button-div">
+        <button class="btn btn-primary btn-lg" ng-click="addNewActivity()">ADD</button>
+      </div>
+    </div>
+
+    <div class="created-activities-container">
     <div ng-repeat="activity in getActivities()"
          class="activity-row"
          ng-class="isSelected(activity)?'selected':''"
          ng-click="setSelected(activity)">
-        <div class="activity-colour" ng-style="{ 'background-color' : activity.colour }">
-        </div>
-        <div class="activity-name">
-            <h3>{{activity.name}}</h3>
-        </div>
+      <div class="activity-colour" ng-style="{ 'background-color' : activity.colour }">
+      </div>
+      <div class="activity-name">
+        <h3>{{activity.name}}</h3>
+      </div>
 
-        <div class="activity-percentage">
-            <h3>{{convertTime(activity.duration)}}</h3>
-        </div>
+      <div class="activity-percentage text-center">
+        <h3>{{convertTime(activity.duration)}}</h3>
+      </div>
     </div>
+    </div>
+
+  </div>
+
+
 </div>
+
+
+
+

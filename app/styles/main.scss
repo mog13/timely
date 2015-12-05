@@ -1,6 +1,7 @@
 $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/bootstrap/";
 // bower:scss
 @import "bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
+@import "theme.scss";
 // endbower
 
 .browsehappy {
@@ -15,124 +16,103 @@ body {
   background-color:#1f3244;
 }
 
-/* Everything but the jumbotron gets side spacing for mobile first views */
-.header,
-.marketing,
-.footer {
-  padding-left: 15px;
-  padding-right: 15px;
+#title{
+  font-size: 39px;
+  color: $steelGrey;
+  letter-spacing: 3px;
 }
 
-/* Custom page header */
-.header {
-  border-bottom: 1px solid #e5e5e5;
-  margin-bottom: 10px;
-
-  /* Make the masthead heading the same height as the navigation */
-  h3 {
-    margin-top: 0;
-    margin-bottom: 0;
-    line-height: 40px;
-    padding-bottom: 19px;
-  }
+#chart{
+  background-color: $lightSteelBlue;
+  width: 500px;
+  height: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top:30px;
 }
+.activities-container {
+  background-color: $lightSteelBlue;
+  margin-top: 30px;
+  padding-bottom:25px;
+  padding-left:0;
+  padding-right:0;
+  height:500px;
 
-/* Custom page footer */
-.footer {
-  padding-top: 19px;
-  color: #777;
-  border-top: 1px solid #e5e5e5;
-}
-
-.container-narrow > hr {
-  margin: 30px 0;
-}
-
-/* Main marketing message and sign up button */
-.jumbotron {
-  text-align: center;
-  border-bottom: 1px solid #e5e5e5;
-  background-color:#31495F;
-  .btn {
-    font-size: 21px;
-    padding: 14px 24px;
+  .created-activities-container{
+    overflow:scroll;
+    height:calc(100% - 70px);
   }
-}
-
-/* Supporting marketing content */
-.marketing {
-  margin: 40px 0;
-
-  p + h4 {
-    margin-top: 28px;
+  h3{
+    color:$steelGrey;
+    text-transform: capitalize;
+    font-weight: 400;
+    font-size: 20px;
   }
-}
+  .activity-row {
+    position: relative;
+    cursor: pointer;
+    padding-bottom: 7px;
+    min-height: 65px;
+    &.input-row {
+      min-height: 65px;
+      padding-top: 10px;
+      padding-bottom:20px;
+      background-color:lighten($lightSteelBlue,10%);
+      input{
 
-/* Responsive: Portrait tablets and up */
-@media screen and (min-width: 768px) {
-  .container {
-    max-width: 730px;
-  }
+        background-color: #E7E7EC;
+        border-color: #B1B1B5;
+        width:100%;
+        &:focus {
+        outline-color: #3B60B3;
+      }
+      }
 
-  /* Remove the padding we set earlier */
-  .header,
-  .marketing,
-  .footer {
-    padding-left: 0;
-    padding-right: 0;
-  }
-  /* Space out the masthead */
-  .header {
-    margin-bottom: 30px;
-  }
-  /* Remove the bottom border on the jumbotron for visual effect */
-  .jumbotron {
-    border-bottom: 0;
-  }
-}
-
-
-.activity-row{
-  position:relative;
-  cursor: pointer;
-
-  &.input-row{
-    margin-bottom:20px;
-    min-height:65px;
-  }
-  &.selected{
-    background-color: rgba(157, 157, 157, 0.16);
-  }
-  div{
-    display:inline-block;
-  }
-  .activity-colour{
-    width:30px;
-    height:30px;
-    position: absolute;
-    top: 15px;
-    left: 15px;
-  }
-
-  .activity-name{
-    margin-left:75px;
-
-    input{
-      margin-top: 20px;
-      width: 300px;
-      height: 30px;
     }
-  }
+    &.selected {
+      background-color: #51697F;
+    }
+    div {
+      display: inline-block;
+    }
+    .activity-colour {
+      width: 30px;
+      height: 30px;
+      position: absolute;
+      top: 15px;
+      left: 15px;
 
-  .activity-percentage {
-    width:50px;
-    float:right;
-  }
+      &.input-colour {
+        width: 40px;
+        height: 40px;
+      }
+    }
 
-  .button-div{
-    margin-right:20px;
-    float:right;
-    margin-top: 18px;
-  }
+    .activity-name {
+      margin-left: 75px;
+      width:60%;
+      input {
+        margin-top: 10px;
+        width: 90%;
+        height: 30px;
+      }
+    }
 
+    .activity-percentage {
+      width: 50px;
+      float: right;
+      margin-right: 15px;
+    }
+
+    .button-div {
+      margin-right: 20px;
+      float: right;
+      margin-top: 10px;
+      .btn{
+        padding: 4px 30px;
+        outline: none;
+      }
+    }
+
+  }
 }
