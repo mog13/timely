@@ -17,7 +17,10 @@ angular.module('timelyApp')
       link: function postLink(scope, element, attrs) {
 
           var backColour = attrs.backcol;
+          var rapSegs = [];
+          var paper, chart;
 
+        // @todo move to  utility service
           function ColorLuminance(hex, lum) {
 
               // validate hex string
@@ -38,64 +41,86 @@ angular.module('timelyApp')
               return rgb;
           }
 
-          Raphael.fn.pieChart = function (cx, cy, r, segments, stroke) {
-              var paper = this,
-                  rad = Math.PI / 180,
-                  chart = this.set();
 
-              function sector(cx, cy, r, startAngle, endAngle, params) {
-                  var x1 = cx + r * Math.cos(-startAngle * rad),
-                      x2 = cx + r * Math.cos(-endAngle * rad),
-                      y1 = cy + r * Math.sin(-startAngle * rad),
-                      y2 = cy + r * Math.sin(-endAngle * rad);
-                  return paper.path(["M", cx, cy, "L", x1, y1, "A", r, r, 0, +(endAngle - startAngle > 180), 0, x2, y2, "z"]).attr(params);
-              }
+
+          Raphael.fn.pieChart = function (cx, cy, r, segments, stroke) {
+
+            if(paper== undefined) paper = this;
+            if(chart == undefined) chart = this.set();
+            var rad = Math.PI / 180;
+
+
+              function getLine(cx, cy, r, startAngle, endAngle) {
+              var x1 = cx + r * Math.cos(-startAngle * rad),
+                x2 = cx + r * Math.cos(-endAngle * rad),
+                y1 = cy + r * Math.sin(-startAngle * rad),
+                y2 = cy + r * Math.sin(-endAngle * rad);
+              return ["M", cx, cy, "L", x1, y1, "A", r, r, 0, +(endAngle - startAngle > 180), 0, x2, y2, "z"].toString();
+            }
+
+
+
+
+              //iterate over all the saved segments checking there is still a corresponding segment
+
+                for(var i= 0,len=segments.length;i<len;i++)
+                {
+                  //if the current segments path is undefined then make one
+                  if(rapSegs[i] === undefined)
+                  {
+                   var seg= {
+                    segpath : paper.path([]).attr({
+                       fill: ColorLuminance(segments[i].colour, 0.2),
+                       stroke: stroke,
+                       "stroke-width": 0
+                     }),
+                     segpath2 : paper.path([]).attr({
+                      fill: ColorLuminance(segments[i].colour, 0.2),
+                      stroke: stroke,
+                      "stroke-width": 0
+                    })
+                  };
+                    seg.segpath.mouseover(function(){
+                     // seg.segpath.scale(1.1, 1.1, cx, cy);
+                    }).mouseout(function(){
+                     // seg.segpath.scale(0.9, 0.9, cx, cy);
+                    });
+                    rapSegs.push(seg);
+                    chart.push(rapSegs[i].segpath);
+                    chart.push(rapSegs[i].segpath2);
+                  }
+                }
+
 
               var angle = 0,
                   total = 0,
-                  start = 0,
-                  process = function (j) {
+                  start = 0;
+                  var process = function (j) {
                       var value = segments[j].duration,
-                          angleplus = 360 * value / total,
-                          popangle = angle + (angleplus / 2),
-                          color = "hsb(" + start + ", 1, .5)",
-                          ms = 500,
-                          delta = 30,
-                          bcolor = "hsb(" + start + ", 1, 1)",
-                          p = sector(cx, cy, r, angle, angle + angleplus, {fill:segments[j].colour, stroke: stroke, "stroke-width": 0}),
-                          p2 = sector(cx, cy, r*0.85, angle, angle + angleplus, {fill: ColorLuminance(segments[j].colour,0.2), stroke: stroke, "stroke-width": 0}),
-                          txt = paper.text(cx + (r + delta + 15) * Math.cos(-popangle * rad), cy + (r + delta + 25) * Math.sin(-popangle * rad), segments[j].name).attr({fill: bcolor, stroke: "none", opacity: 1, "font-family": 'Fontin-Sans, Arial', "font-size": "20px"});
-                      if(segments[j].selected)
-                      {
-                          p.scale(1.1, 1.1, cx, cy);
-                          p2.scale(1.1,1.1,cx,cy);
+                          angleplus = 360 * value / total;
+
+                    rapSegs[j].segpath.attr({path:getLine(cx, cy, r, angle, angle + angleplus),fill:segments[j].colour, stroke: stroke, "stroke-width": 0});
+                    rapSegs[j].segpath2.attr({path:getLine(cx, cy, r*0.85, angle, angle + angleplus),fill: ColorLuminance(segments[j].colour,0.2), stroke: stroke, "stroke-width": 0});
+
+
+                    // p = sector(cx, cy, r, angle, angle + angleplus, {fill:segments[j].colour, stroke: stroke, "stroke-width": 0}),
+                          //p2 = sector(cx, cy, r*0.85, angle, angle + angleplus, {fill: ColorLuminance(segments[j].colour,0.2), stroke: stroke, "stroke-width": 0}),
+                          //txt = paper.text(cx + (r + delta + 15) * Math.cos(-popangle * rad), cy + (r + delta + 25) * Math.sin(-popangle * rad), segments[j].name).attr({fill: bcolor, stroke: "none", opacity: 1, "font-family": 'Fontin-Sans, Arial', "font-size": "20px"});
+
+                          //p.scale(1.1, 1.1, cx, cy);
+                         // p2.scale(1.1,1.1,cx,cy);
                         //  p.attr({"stroke-width":2});
-                      }
-
-                      var posX = 0;
-                      var posY = 0;
-                      p.mousemove(function (event) {
-                            posX = event.pageX - $(document).scrollLeft() - $('#holder').offset().left;
-                           posY = event.pageY - $(document).scrollTop() - $('#holder').offset().top;
-                          console.log(posX,':',posY);
-                      });
 
 
-
-
-                      if(p.isPointInside(posX,posY)||p2.isPointInside(posX,posY)){
-                          p.scale(1.1, 1.1, cx, cy);
-                          p2.scale(1.1,1.1,cx,cy);
-                      }
                       angle += angleplus;
-                      chart.push(p);
-                      chart.push(p2);
-                      chart.push(txt);
+
                       start += .1;
                   };
+
               for (var i = 0, ii = segments.length; i < ii; i++) {
                   total += segments[i].duration;
               }
+
               for (var i = 0; i < ii; i++) {
                   process(i);
               }
@@ -130,7 +155,7 @@ angular.module('timelyApp')
           var doughnut = Raphael(holder, 500, 500);
 
           scope.$watch('segdata', function(value) {
-              doughnut.clear();
+
               doughnut.pieChart(250, 250, 150, scope.segdata, "#000");
           },true);
 

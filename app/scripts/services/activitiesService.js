@@ -13,6 +13,7 @@ angular.module('timelyApp')
 
         that.activities = [{name:'distraction',colour:'#B10409',duration:1,selected:true}];
         that.selectedActivity = that.activities[0];
+
         that.addNewActivity = function(_name,_col,_duration)
         {
           var activity = {};
@@ -21,6 +22,7 @@ angular.module('timelyApp')
             activity.duration = _duration ||1;
             activity.id =   that.activities.length;
             that.activities.push(activity);
+            that.selectedActivity = activity;
         };
 
 
