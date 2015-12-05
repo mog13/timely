@@ -13,7 +13,7 @@ angular.module('timelyApp')
     activitiesService.addNewActivity('test',Please.make_color({
       golden: false, //disable default
       full_random: true //go full random
-    }),6000);
+    }),60);
     activitiesService.addNewActivity('test',Please.make_color({
       golden: false, //disable default
       full_random: true //go full random
