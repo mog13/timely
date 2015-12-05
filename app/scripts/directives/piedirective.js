@@ -51,15 +51,12 @@ angular.module('timelyApp')
 
 
               function getLine(cx, cy, r, startAngle, endAngle) {
-              var x1 = cx + r * Math.cos(-startAngle * rad),
-                x2 = cx + r * Math.cos(-endAngle * rad),
-                y1 = cy + r * Math.sin(-startAngle * rad),
-                y2 = cy + r * Math.sin(-endAngle * rad);
-              return ["M", cx, cy, "L", x1, y1, "A", r, r, 0, +(endAngle - startAngle > 180), 0, x2, y2, "z"].toString();
-            }
-
-
-
+                var x1 = cx + r * Math.cos(-startAngle * rad),
+                  x2 = cx + r * Math.cos(-endAngle * rad),
+                  y1 = cy + r * Math.sin(-startAngle * rad),
+                  y2 = cy + r * Math.sin(-endAngle * rad);
+                return ["M", cx, cy, "L", x1, y1, "A", r, r, 0, +(endAngle - startAngle > 180), 0, x2, y2, "z"].toString();
+              }
 
               //iterate over all the saved segments checking there is still a corresponding segment
 
@@ -138,7 +135,7 @@ angular.module('timelyApp')
               });
               chart.push(perc);
                   //percentage
-                  var perc = paper.text(cx, cy, activitiesService.getSegmentPercentage(activitiesService.selectedActivity.name).toFixed(2)+'%').attr({
+                  var perc = paper.text(cx, cy, activitiesService.getSegmentPercentage(activitiesService.selectedActivity.id).toFixed(2)+'%').attr({
                       fill: '#222222',
                       stroke: "none",
                       opacity: 1,

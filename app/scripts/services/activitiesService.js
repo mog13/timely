@@ -26,10 +26,10 @@ angular.module('timelyApp')
         };
 
 
-        that.getActivityByName = function(name)
+        that.getActivityById = function(id)
         {
             for(var i= 0, len =that.activities.length; i<len;i++) {
-                if (that.activities[i].name === name) {
+                if (that.activities[i].id === id) {
                    return that.activities[i];
                 }
             }
@@ -50,8 +50,8 @@ angular.module('timelyApp')
             return total;
         };
 
-        that.getSegmentPercentage = function(name){
-            var amount =  that.getActivityByName(name).duration;
+        that.getSegmentPercentage = function(id){
+            var amount =  that.getActivityById(id).duration;
             var total = that.getTotalDuration();
             return (amount/total)*100;
         };
