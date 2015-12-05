@@ -13,7 +13,7 @@ angular.module('timelyApp')
     activitiesService.addNewActivity('test',Please.make_color({
       golden: false, //disable default
       full_random: true //go full random
-    }),5);
+    }),6000);
     activitiesService.addNewActivity('test',Please.make_color({
       golden: false, //disable default
       full_random: true //go full random
@@ -63,19 +63,22 @@ angular.module('timelyApp')
                 });
         };
 
+
+        function padTime(number) {
+          return (number < 10 ? '0' : '') + number
+        }
         $scope.convertTime = function(duration){
 
-            if(duration <=60){
-                return duration;
-            }
-           var seconds =  duration%60;
-           var mins = Math.floor(duration/60);
-            if(mins < 60){
-                return mins + ":" + seconds;
-            }
-            var mins = mins %60;
-            var hours = Math.floor(mins /60);
-            return hours+ ":" + mins+ ":" + seconds;
+
+          var seconds,minutes,hours;
+
+          seconds = duration%60;
+          minutes =  Math.floor(duration/60);
+          hours =  Math.floor(minutes/60);
+          minutes = minutes%60;
+
+
+            return padTime(hours)+ ":" + padTime(minutes)+ ":" + padTime(seconds);
         };
 
 
