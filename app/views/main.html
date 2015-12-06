@@ -7,7 +7,7 @@
     <div id="chart">
       <pie-directive segdata="getActivities()" backcol="#51697F" />
     </div>
-    <button class="btn btn-danger" id="distraction-btn" ng-click=""><i class="fa fa-bolt fa-3x"></i></button>
+    <button class="btn btn-danger" id="distraction-btn" ng-click="distractionPressed()"><i ng-class="distractionIcon()"></i></button>
   </div>
 
   <div class="col-xs-6 col-xs-offset-3 col-md-6 col-md-offset-0 col-md-pull-6 activities-container">

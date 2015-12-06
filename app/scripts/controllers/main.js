@@ -81,6 +81,14 @@ angular.module('timelyApp')
             return padTime(hours)+ ":" + padTime(minutes)+ ":" + padTime(seconds);
         };
 
+    $scope.distractionIcon = function()
+    {
+      if(activitiesService.selectedActivity.id ===0) return 'fa fa-ban fa-2x';
+      return 'fa fa-bolt fa-2x';
+    };
 
+    $scope.distractionPressed = function(){
+      activitiesService.distractionPressed();
+    }
 
   });
