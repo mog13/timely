@@ -1,6 +1,7 @@
 $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/bootstrap/";
 // bower:scss
 @import "bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
+@import "fontawesome/scss/font-awesome.scss";
 // endbower
 @import "theme.scss";
 
@@ -22,14 +23,23 @@ body {
   letter-spacing: 3px;
 }
 
-#chart{
+#chart {
   background-color: $lightSteelBlue;
   width: 500px;
   height: 500px;
   margin-left: auto;
   margin-right: auto;
-  margin-top:30px;
+  margin-top: 30px;
 }
+
+#distraction-btn{
+  position: absolute;
+  top: 45px;
+  left: 50px;
+  width: 45px;
+  border-radius: 0;
+  }
+
 .activities-container {
   background-color: $lightSteelBlue;
   margin-top: 30px;

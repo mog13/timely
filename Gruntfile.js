@@ -436,6 +436,7 @@ module.exports = function (grunt) {
     },
 
     // Run some tasks in parallel to speed up the build process
+    // removed 'imagemin' due to dependency issues, investigate!
     concurrent: {
       server: [
         'compass:server'
@@ -445,7 +446,6 @@ module.exports = function (grunt) {
       ],
       dist: [
         'compass:dist',
-        'imagemin',
         'svgmin'
       ]
     },
