@@ -14,7 +14,7 @@
       <div class="activity-colour input-colour" id="new-colour" ng-style="{ 'background-color' : newActivity.colour }">
       </div>
       <div class="activity-name">
-        <input type="text" ng-model="newActivity.name">
+        <input type="text" ng-model="newActivity.name" ng-keyup="$event.keyCode == 13 ? addNewActivity(): null">
       </div>
 
       <div class="button-div">
