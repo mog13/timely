@@ -83,8 +83,8 @@ angular.module('timelyApp')
 
     $scope.distractionIcon = function()
     {
-      if(activitiesService.selectedActivity.id ===0) {
-        if(activitiesService.previousActivity === null)
+      if(activitiesService.selectedActivity.id ===0)
+      {
         return 'fa fa-ban fa-2x';
       }
       return 'fa fa-bolt fa-2x';
