@@ -67,8 +67,8 @@ angular.module('timelyApp')
         function padTime(number) {
           return (number < 10 ? '0' : '') + number
         }
-        $scope.convertTime = function(duration){
 
+        $scope.convertTime = function(duration){
 
           var seconds,minutes,hours;
 
@@ -81,6 +81,25 @@ angular.module('timelyApp')
             return padTime(hours)+ ":" + padTime(minutes)+ ":" + padTime(seconds);
         };
 
+    $scope.distractionIcon = function()
+    {
+      if(activitiesService.selectedActivity.id ===0) {
+        if(activitiesService.previousActivity === null)
+        return 'fa fa-ban fa-2x';
+      }
+      return 'fa fa-bolt fa-2x';
+    };
 
+    $scope.isDistractionDisabled = function()
+    {
+      if(activitiesService.selectedActivity.id ===0 && activitiesService.previousActivity === null){
+        return 'disabled';
+      }
+      return '';
+    };
+
+    $scope.distractionPressed = function(){
+      activitiesService.distractionPressed();
+    }
 
   });

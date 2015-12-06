@@ -11,9 +11,9 @@ angular.module('timelyApp')
   .service('activitiesService', function () {
         var that = this;
 
-        that.activities = [{name:'distraction',colour:'#B10409',duration:1,selected:true}];
+        that.activities = [{name:'distraction',colour:'#B10409',duration:1,selected:true,id:0}];
         that.selectedActivity = that.activities[0];
-
+        that.previousActivity = null;
         that.addNewActivity = function(_name,_col,_duration)
         {
           var activity = {};
@@ -62,7 +62,31 @@ angular.module('timelyApp')
             }
             that.selectedActivity = activity;
             that.selectedActivity.selected = true;
+
+            //if we are not in distraction then we dont need to keep a record of where weve come from
+            if(that.selectedActivity.id !== 0)
+            {
+              that.previousActivity = null;
+            }
         };
+
+    that.distractionPressed = function(){
+
+      //there was no previous activity so switch to distraction
+      if(that.previousActivity ===null)
+      {
+        // only do something if the current activity isnt distraction
+        if(that.selectedActivity.id !==0)
+        {
+          //store previous activity
+          that.previousActivity = that.selectedActivity;
+          that.setSelectedActivity(that.activities[0]);
+        }
+      }
+      else{ // if there was a previous activity then return to it
+        that.setSelectedActivity(that.previousActivity );
+      }
+    }
 
 
 
