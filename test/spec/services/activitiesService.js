@@ -44,5 +44,15 @@ describe('Service: activitiesService', function () {
     expect(activitiesServiceInstance.activities[1].id).toBe(activitiesServiceInstance.selectedActivity.id);
   })
 
+  it('should set previous activity to null when setting selected unless it is setting a distraction',function(){
+    expect(activitiesServiceInstance.previousActivity).toBe(null);
+    activitiesServiceInstance.addNewActivity('test', 'blue', 1);
+    activitiesServiceInstance.distractionPressed();
+    expect(activitiesServiceInstance.previousActivity).toBe(activitiesServiceInstance.activities[1]);
+
+    activitiesServiceInstance.setSelectedActivity(activitiesServiceInstance.activities[1]);
+    expect(activitiesServiceInstance.previousActivity).toBe(null);
+  });
+
 
 });
