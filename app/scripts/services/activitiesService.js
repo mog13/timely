@@ -23,6 +23,7 @@ angular.module('timelyApp')
             activity.id =   that.activities.length;
             that.activities.push(activity);
             that.selectedActivity = activity;
+          that.setSelectedActivity(that.selectedActivity);
         };
 
 
