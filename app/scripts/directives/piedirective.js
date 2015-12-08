@@ -18,6 +18,7 @@ angular.module('timelyApp')
 
           var backColour = attrs.backcol;
           var rapSegs = [];
+          var centralCircle,activeTitle,activePercentage
           var paper, chart;
 
         // @todo move to  utility service
@@ -45,17 +46,55 @@ angular.module('timelyApp')
 
           Raphael.fn.pieChart = function (cx, cy, r, segments, stroke) {
 
+            //We only want to set things up once, then update them. This is to stop copious redraws and help ease of animation and interaction etc
             if(paper== undefined) paper = this;
             if(chart == undefined) chart = this.set();
+
+            if(centralCircle == undefined){
+              centralCircle = paper.circle(cx, cy, r*0.95).attr({fill:backColour, "stroke-width":0});
+              chart.push(centralCircle);
+            }
+
+            if(activeTitle === undefined)
+            {
+              activeTitle = paper.text(cx, cy -40,activitiesService.selectedActivity.name).attr({
+                fill: '#c1c1c5',
+                stroke: "none",
+                opacity: 1,
+                "font-family": 'Fontin-Sans, Arial',
+                "font-size": "30px"
+              });
+              chart.push(activeTitle);
+            }
+
+            if(activePercentage ===undefined){
+              activePercentage = paper.text(cx, cy, activitiesService.getSegmentPercentage(activitiesService.selectedActivity.id).toFixed(2)+'%').attr({
+                fill: '#B1B1B5',
+                stroke: "none",
+                opacity: 1,
+                "font-family": 'Fontin-Sans, Arial',
+                "font-size": "20px"
+              });
+              chart.push(activePercentage);
+            }
+
+
             var rad = Math.PI / 180;
 
 
-              function getLine(cx, cy, r, startAngle, endAngle) {
+              function getLine(cx, cy, r, startAngle, endAngle,n) {
+                n = n || 0.76;
                 var x1 = cx + r * Math.cos(-startAngle * rad),
                   x2 = cx + r * Math.cos(-endAngle * rad),
                   y1 = cy + r * Math.sin(-startAngle * rad),
-                  y2 = cy + r * Math.sin(-endAngle * rad);
-                return ["M", cx, cy, "L", x1, y1, "A", r, r, 0, +(endAngle - startAngle > 180), 0, x2, y2, "z"].toString();
+                  y2 = cy + r * Math.sin(-endAngle * rad),
+                  sx =  cx + r * n * Math.cos(-startAngle * rad),
+                  sy =  cy + r * n *Math.sin(-startAngle * rad),
+                  sx2 =  cx + r * n * Math.cos(-endAngle * rad),
+                  sy2 =  cy + r * n *Math.sin(-endAngle * rad);
+
+                return ["M",sx,sy,"L",x1,y1,"A", r, r,0, +(endAngle - startAngle > 180), 0, x2, y2,"L",sx2,sy2,"A", r*n, r*n,0, +(endAngle - startAngle > 180),1, sx, sy].toString();
+               // return ["M", cx, cy, "L", x1, y1, "A", r, r, 0, +(endAngle - startAngle > 180), 0, x2, y2, "z"].toString();
               }
 
               //iterate over all the saved segments checking there is still a corresponding segment
@@ -95,57 +134,27 @@ angular.module('timelyApp')
                   var process = function (j) {
                       var value = segments[j].duration,
                           angleplus = 360 * value / total;
+                    var tempr = r;
 
-                    rapSegs[j].segpath.attr({path:getLine(cx, cy, r, angle, angle + angleplus),fill:segments[j].colour, stroke: stroke, "stroke-width": 0});
-                    rapSegs[j].segpath2.attr({path:getLine(cx, cy, r*0.85, angle, angle + angleplus),fill: ColorLuminance(segments[j].colour,0.2), stroke: stroke, "stroke-width": 0});
-
-
-                    // p = sector(cx, cy, r, angle, angle + angleplus, {fill:segments[j].colour, stroke: stroke, "stroke-width": 0}),
-                          //p2 = sector(cx, cy, r*0.85, angle, angle + angleplus, {fill: ColorLuminance(segments[j].colour,0.2), stroke: stroke, "stroke-width": 0}),
-                          //txt = paper.text(cx + (r + delta + 15) * Math.cos(-popangle * rad), cy + (r + delta + 25) * Math.sin(-popangle * rad), segments[j].name).attr({fill: bcolor, stroke: "none", opacity: 1, "font-family": 'Fontin-Sans, Arial', "font-size": "20px"});
-
-                          //p.scale(1.1, 1.1, cx, cy);
-                         // p2.scale(1.1,1.1,cx,cy);
-                        //  p.attr({"stroke-width":2});
-
+                    if(segments[j].selected){
+                      tempr*=1.1;
+                    }
+                    rapSegs[j].segpath.attr({path:getLine(cx, cy, tempr, angle, angle + angleplus),fill:segments[j].colour, stroke: stroke, "stroke-width": 0});
+                    rapSegs[j].segpath2.attr({path:getLine(cx, cy, r*0.85, angle, angle + angleplus,0.9),fill: ColorLuminance(segments[j].colour,0.2), stroke: stroke, "stroke-width": 0});
 
                       angle += angleplus;
-
                       start += .1;
                   };
 
               for (var i = 0, ii = segments.length; i < ii; i++) {
                   total += segments[i].duration;
               }
-
               for (var i = 0; i < ii; i++) {
                   process(i);
               }
 
-              //centrall circle to make doughnut
-              var circle = paper.circle(cx, cy, r*0.75).attr({fill:backColour, "stroke-width":0});
-              chart.push(circle);
-                //title
-              var perc = paper.text(cx, cy -40,activitiesService.selectedActivity.name).attr({
-                  fill: '#222222',
-                  stroke: "none",
-                  opacity: 1,
-                  "font-family": 'Fontin-Sans, Arial',
-                  "font-size": "30px"
-              });
-              chart.push(perc);
-                  //percentage
-                  var perc = paper.text(cx, cy, activitiesService.getSegmentPercentage(activitiesService.selectedActivity.id).toFixed(2)+'%').attr({
-                      fill: '#222222',
-                      stroke: "none",
-                      opacity: 1,
-                      "font-family": 'Fontin-Sans, Arial',
-                      "font-size": "20px"
-                  });
-                  chart.push(perc);
-
-
-
+              activeTitle.attr({test:activitiesService.selectedActivity.name});
+              activePercentage.attr({text:activitiesService.getSegmentPercentage(activitiesService.selectedActivity.id).toFixed(2)+'%'});
               return chart;
           };
 
