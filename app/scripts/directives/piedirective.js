@@ -134,10 +134,11 @@ angular.module('timelyApp')
                   var process = function (j) {
                       var value = segments[j].duration,
                           angleplus = 360 * value / total;
-                    var tempr = r;
+                    var tempr = r, n =0.9;
 
                     if(segments[j].selected){
                       tempr*=1.1;
+                      n = 0.81;
                     }
                     rapSegs[j].segpath.attr({path:getLine(cx, cy, tempr, angle, angle + angleplus),fill:segments[j].colour, stroke: stroke, "stroke-width": 0});
                     rapSegs[j].segpath2.attr({path:getLine(cx, cy, r*0.85, angle, angle + angleplus,0.9),fill: ColorLuminance(segments[j].colour,0.2), stroke: stroke, "stroke-width": 0});

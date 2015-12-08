@@ -31,9 +31,17 @@ angular.module('timelyApp')
             })
         };
 
-        setInterval(function() {
-            activitiesService.increaseActivity(1);
-            $scope.$apply();}, 1000);
+    setInterval(function() {
+      activitiesService.increaseActivity(1);
+      $scope.$apply();}, 1000);
+
+
+    activitiesService.loadFromLocalStorage();
+    setInterval(function() {
+      activitiesService.saveToLocalStorage();
+      activitiesService.loadFromLocalStorage();
+      $scope.$apply();
+      }, 10000);
 
 
 
