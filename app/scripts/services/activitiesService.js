@@ -40,6 +40,7 @@ angular.module('timelyApp')
         that.increaseActivity = function( amount){
             amount = amount|| 1;
             that.selectedActivity.duration += amount;
+
         };
 
 
@@ -71,6 +72,11 @@ angular.module('timelyApp')
             }
         };
 
+    that.getSelectedActivity = function()
+    {
+      return that.getActivityById(that.selectedActivity.id);
+    };
+
     that.distractionPressed = function(){
 
       //there was no previous activity so switch to distraction
@@ -87,8 +93,38 @@ angular.module('timelyApp')
       else{ // if there was a previous activity then return to it
         that.setSelectedActivity(that.previousActivity );
       }
-    }
+    };
 
+    that.saveToLocalStorage = function(){
+      localStorage.setItem("activities", JSON.stringify(that.activities));
+      localStorage.setItem("time",new Date());
+
+    };
+
+
+    that.loadFromLocalStorage = function(){
+      if( localStorage.activities) {
+        that.activities = JSON.parse(localStorage.activities);
+       for(var i= 0, len = that.activities.length; i<len; i++)
+       {
+         if(that.activities[i].selected){
+           that.setSelectedActivity((that.activities[i]));
+         }
+       }
+
+        if (localStorage.time) {
+          //add the transition
+          var curDate = new Date();
+          var lastDate = new Date(localStorage.time);
+          var diff = (curDate - lastDate) / 1000;
+          if (diff > 1) {
+            that.getSelectedActivity().duration += Math.floor(diff);
+          }
+
+        }
+      }
+
+    }
 
 
   });
