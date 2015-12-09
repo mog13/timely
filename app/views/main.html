@@ -12,6 +12,11 @@
             ng-class="isDistractionDisabled()">
       <i ng-class="distractionIcon()"></i>
     </button>
+
+    <button class="btn btn-secondary" id="clear-btn"
+            ng-click="clearPressed()">
+      <i class="fa fa-trash fa-2x"></i>
+    </button>
   </div>
 
   <div class="col-xs-6 col-xs-offset-3 col-md-6 col-md-offset-0 col-md-pull-6 activities-container">
@@ -19,7 +24,7 @@
       <div class="activity-colour input-colour" id="new-colour" ng-style="{ 'background-color' : newActivity.colour }">
       </div>
       <div class="activity-name">
-        <input type="text" ng-model="newActivity.name" ng-keyup="$event.keyCode == 13 ? addNewActivity(): null">
+        <input id="new-activity-input" type="text" ng-model="newActivity.name" ng-keyup="$event.keyCode == 13 ? addNewActivity(): null">
       </div>
 
       <div class="button-div">
@@ -28,7 +33,7 @@
     </div>
 
     <div class="created-activities-container">
-      <div ng-repeat="activity in getActivities()"
+      <div ng-repeat="activity in getActivities() track by activity.id"
            class="activity-row"
            ng-class="isSelected(activity)?'selected':''"
            ng-click="setSelected(activity)">

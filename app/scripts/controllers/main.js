@@ -10,19 +10,6 @@
 angular.module('timelyApp')
   .controller('MainCtrl', function ($scope,activitiesService) {
 
-    activitiesService.addNewActivity('test',Please.make_color({
-      golden: false, //disable default
-      full_random: true //go full random
-    }),60);
-    activitiesService.addNewActivity('test',Please.make_color({
-      golden: false, //disable default
-      full_random: true //go full random
-    }),5);
-    activitiesService.addNewActivity('test',Please.make_color({
-      golden: false, //disable default
-      full_random: true //go full random
-    }),5);
-
         $scope.newActivity= {
             name:'',
             colour:Please.make_color({
@@ -36,12 +23,13 @@ angular.module('timelyApp')
       $scope.$apply();}, 1000);
 
 
-    activitiesService.loadFromLocalStorage();
+    activitiesService.loadFromLocalStorage(1);
+    activitiesService.saveToLocalStorage();
     setInterval(function() {
+      activitiesService.loadFromLocalStorage(6);
       activitiesService.saveToLocalStorage();
-      activitiesService.loadFromLocalStorage();
       $scope.$apply();
-      }, 10000);
+      }, 5000);
 
 
 
@@ -69,6 +57,7 @@ angular.module('timelyApp')
                     golden: false, //disable default
                     full_random: true //go full random
                 });
+           $('#new-activity-input').val('');
         };
 
 
@@ -108,6 +97,10 @@ angular.module('timelyApp')
 
     $scope.distractionPressed = function(){
       activitiesService.distractionPressed();
-    }
+    };
+
+    $scope.clearPressed = function(){
+      activitiesService.clearActivities();
+    };
 
   });
