@@ -23,12 +23,13 @@ angular.module('timelyApp')
       $scope.$apply();}, 1000);
 
 
-    activitiesService.loadFromLocalStorage();
+    activitiesService.loadFromLocalStorage(1);
+    activitiesService.saveToLocalStorage();
     setInterval(function() {
+      activitiesService.loadFromLocalStorage(6);
       activitiesService.saveToLocalStorage();
-      activitiesService.loadFromLocalStorage();
       $scope.$apply();
-      }, 10000);
+      }, 5000);
 
 
 
