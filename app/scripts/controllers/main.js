@@ -10,19 +10,6 @@
 angular.module('timelyApp')
   .controller('MainCtrl', function ($scope,activitiesService) {
 
-    activitiesService.addNewActivity('test',Please.make_color({
-      golden: false, //disable default
-      full_random: true //go full random
-    }),60);
-    activitiesService.addNewActivity('test',Please.make_color({
-      golden: false, //disable default
-      full_random: true //go full random
-    }),5);
-    activitiesService.addNewActivity('test',Please.make_color({
-      golden: false, //disable default
-      full_random: true //go full random
-    }),5);
-
         $scope.newActivity= {
             name:'',
             colour:Please.make_color({
@@ -69,6 +56,7 @@ angular.module('timelyApp')
                     golden: false, //disable default
                     full_random: true //go full random
                 });
+           $('#new-activity-input').val('');
         };
 
 
