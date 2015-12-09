@@ -41,6 +41,15 @@ body {
   outline: none;
   }
 
+#clear-btn {
+  position: absolute;
+  bottom: 15px;
+  right: 50px;
+  width: 50px;
+  border-radius: 0;
+  outline: none;
+}
+
 .activities-container {
   background-color: $lightSteelBlue;
   margin-top: 30px;

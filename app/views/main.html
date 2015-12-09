@@ -13,10 +13,9 @@
       <i ng-class="distractionIcon()"></i>
     </button>
 
-    <button class="btn btn-danger" id="clear-btn"
+    <button class="btn btn-secondary" id="clear-btn"
             ng-click="clearPressed()">
-      DEL
-      <i></i>
+      <i class="fa fa-trash fa-2x"></i>
     </button>
   </div>
 
@@ -34,7 +33,7 @@
     </div>
 
     <div class="created-activities-container">
-      <div ng-repeat="activity in getActivities()"
+      <div ng-repeat="activity in getActivities() track by activity.id"
            class="activity-row"
            ng-class="isSelected(activity)?'selected':''"
            ng-click="setSelected(activity)">

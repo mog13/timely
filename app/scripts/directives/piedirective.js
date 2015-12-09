@@ -74,14 +74,21 @@ angular.module('timelyApp')
                // return ["M", cx, cy, "L", x1, y1, "A", r, r, 0, +(endAngle - startAngle > 180), 0, x2, y2, "z"].toString();
               }
 
+            //if there are less segments than the local copy then rebuild the visualization
+              if(segments.length < rapSegs.length)
+              {
+                for(var i= 0,len=rapSegs.length;i<len;i++)
+                {
+                  rapSegs[i].segpath.attr({path:''});
+                  rapSegs[i].segpath2.attr({path:''});
+                }
+              }
               //iterate over all the saved segments checking there is still a corresponding segment
-
                 for(var i= 0,len=segments.length;i<len;i++)
                 {
                   //if the current segments path is undefined then make one
                   if(rapSegs[i] === undefined)
                   {
-                    console.log('undefined found');
                    var seg= {
                     segpath : paper.path([]).attr({
                        fill: utilitiesService.ColorLuminance(segments[i].colour, 0.2),
@@ -111,8 +118,10 @@ angular.module('timelyApp')
                   start = 0;
                   var process = function (j) {
                       var value = segments[j].duration,
-                          angleplus = 360 * value / total;
-                    var tempr = r, n =0.9;
+                          angleplus = (360 * value / total);
+                          if(angleplus >=360) angleplus = 359.9999;
+
+                      var tempr = r, n =0.9;
 
                     if(segments[j].selected){
                       tempr*=1.1;
@@ -130,9 +139,10 @@ angular.module('timelyApp')
               }
               for (var i = 0; i < ii; i++) {
                   process(i);
+
               }
 
-              activeTitle.attr({test:activitiesService.selectedActivity.name});
+              activeTitle.attr({text:activitiesService.selectedActivity.name});
               activePercentage.attr({text:activitiesService.getSegmentPercentage(activitiesService.selectedActivity.id).toFixed(2)+'%'});
               return chart;
           };
