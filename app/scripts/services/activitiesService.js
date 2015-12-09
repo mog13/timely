@@ -11,10 +11,18 @@ angular.module('timelyApp')
   .service('activitiesService', function () {
         var that = this;
 
-        that.activities = [{name:'distraction',colour:'#B10409',duration:1,selected:true,id:0}];
-        that.selectedActivity = that.activities[0];
-        that.previousActivity = null;
-        that.addNewActivity = function(_name,_col,_duration)
+
+        that.resetActivities = function()
+        {
+          that.activities = [{name:'distraction',colour:'#B10409',duration:1,selected:true,id:0}];
+          that.selectedActivity = that.activities[0];
+          that.previousActivity = null;
+        };
+
+    that.resetActivities();
+
+
+    that.addNewActivity = function(_name,_col,_duration)
         {
           var activity = {};
             activity.name = _name;
@@ -124,6 +132,12 @@ angular.module('timelyApp')
         }
       }
 
+    };
+
+    that.clearActivities = function()
+    {
+      that.resetActivities();
+      localStorage.clear();
     }
 
 

@@ -7,7 +7,7 @@
  * # pieDirective
  */
 angular.module('timelyApp')
-  .directive('pieDirective', function (activitiesService) {
+  .directive('pieDirective', function (activitiesService,utilitiesService) {
     return {
       template: '<div id="holder"></div>',
       restrict: 'E',
@@ -21,31 +21,8 @@ angular.module('timelyApp')
           var centralCircle,activeTitle,activePercentage
           var paper, chart;
 
-        // @todo move to  utility service
-          function ColorLuminance(hex, lum) {
-
-              // validate hex string
-              hex = String(hex).replace(/[^0-9a-f]/gi, '');
-              if (hex.length < 6) {
-                  hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
-              }
-              lum = lum || 0;
-
-              // convert to decimal and change luminosity
-              var rgb = "#", c, i;
-              for (i = 0; i < 3; i++) {
-                  c = parseInt(hex.substr(i*2,2), 16);
-                  c = Math.round(Math.min(Math.max(0, c + (c * lum)), 255)).toString(16);
-                  rgb += ("00"+c).substr(c.length);
-              }
-
-              return rgb;
-          }
-
-
 
           Raphael.fn.pieChart = function (cx, cy, r, segments, stroke) {
-
             //We only want to set things up once, then update them. This is to stop copious redraws and help ease of animation and interaction etc
             if(paper== undefined) paper = this;
             if(chart == undefined) chart = this.set();
@@ -104,14 +81,15 @@ angular.module('timelyApp')
                   //if the current segments path is undefined then make one
                   if(rapSegs[i] === undefined)
                   {
+                    console.log('undefined found');
                    var seg= {
                     segpath : paper.path([]).attr({
-                       fill: ColorLuminance(segments[i].colour, 0.2),
+                       fill: utilitiesService.ColorLuminance(segments[i].colour, 0.2),
                        stroke: stroke,
                        "stroke-width": 0
                      }),
                      segpath2 : paper.path([]).attr({
-                      fill: ColorLuminance(segments[i].colour, 0.2),
+                      fill: utilitiesService.ColorLuminance(segments[i].colour, 0.2),
                       stroke: stroke,
                       "stroke-width": 0
                     })
@@ -141,7 +119,7 @@ angular.module('timelyApp')
                       n = 0.81;
                     }
                     rapSegs[j].segpath.attr({path:getLine(cx, cy, tempr, angle, angle + angleplus),fill:segments[j].colour, stroke: stroke, "stroke-width": 0});
-                    rapSegs[j].segpath2.attr({path:getLine(cx, cy, r*0.85, angle, angle + angleplus,0.9),fill: ColorLuminance(segments[j].colour,0.2), stroke: stroke, "stroke-width": 0});
+                    rapSegs[j].segpath2.attr({path:getLine(cx, cy, r*0.85, angle, angle + angleplus,0.9),fill: utilitiesService.ColorLuminance(segments[j].colour,0.2), stroke: stroke, "stroke-width": 0});
 
                       angle += angleplus;
                       start += .1;
@@ -162,7 +140,6 @@ angular.module('timelyApp')
           var doughnut = Raphael(holder, 500, 500);
 
           scope.$watch('segdata', function(value) {
-
               doughnut.pieChart(250, 250, 150, scope.segdata, "#000");
           },true);
 

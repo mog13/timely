@@ -108,6 +108,10 @@ angular.module('timelyApp')
 
     $scope.distractionPressed = function(){
       activitiesService.distractionPressed();
-    }
+    };
+
+    $scope.clearPressed = function(){
+      activitiesService.clearActivities();
+    };
 
   });
