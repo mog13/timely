@@ -21,8 +21,9 @@
 
   <div class="col-xs-6 col-xs-offset-3 col-md-6 col-md-offset-0 col-md-pull-6 activities-container">
     <div class="activity-row input-row">
-      <div class="activity-colour input-colour" id="new-colour" ng-style="{ 'background-color' : newActivity.colour }">
-      </div>
+      <button colorpicker colorpicker-position="bottom" ng-model="newActivity.colour" class="activity-colour input-colour" id="new-colour" ng-style="{ 'background-color' : newActivity.colour }">
+
+      </button>
       <div class="activity-name">
         <input id="new-activity-input" type="text" ng-model="newActivity.name" ng-keyup="$event.keyCode == 13 ? addNewActivity(): null">
       </div>
