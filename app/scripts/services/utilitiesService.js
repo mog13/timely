@@ -11,6 +11,13 @@ angular.module('timelyApp')
   .service('utilitiesService', function () {
     var that = this;
 
+    /**
+     * change a given color by a certain luminance
+     * @param hex
+     * @param lum
+     * @returns {string}
+     * @constructor
+     */
     that.ColorLuminance = function(hex, lum) {
 
       // validate hex string
