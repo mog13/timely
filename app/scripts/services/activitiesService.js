@@ -97,7 +97,7 @@ angular.module('timelyApp')
       that.selectedActivity = activity;
       that.selectedActivity.selected = true;
 
-      //if we are not in distraction then we dont need to keep a record of where weve come from
+      //if we are not in distraction then we don't need to keep a record of where we've come from
       if (that.selectedActivity.id !== 0) {
         that.previousActivity = null;
       }
@@ -112,7 +112,7 @@ angular.module('timelyApp')
     };
 
     /**
-     * handle the distrction button being pressed
+     * handle the distraction button being pressed
      * Either store current activity and set distraction as selected
      * or change to stored activity and clear
      */
@@ -132,7 +132,7 @@ angular.module('timelyApp')
     };
 
     /**
-     * save activitys to local storage witht he time of the save
+     * save activity's to local storage witht he time of the save
      */
     that.saveToLocalStorage = function () {
       localStorage.setItem("activities", JSON.stringify(that.activities));
