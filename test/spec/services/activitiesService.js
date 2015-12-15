@@ -42,15 +42,41 @@ describe('Service: activitiesService', function () {
   it('When a new activity is created it should be active', function () {
     activitiesServiceInstance.addNewActivity('test', 'blue', 1);
     expect(activitiesServiceInstance.activities[1].id).toBe(activitiesServiceInstance.selectedActivity.id);
-  })
+  });
 
-  it('should set previous activity to null when setting selected unless it is setting a distraction',function(){
+  it('should set previous activity to null when setting selected unless it is setting a distraction', function () {
     expect(activitiesServiceInstance.previousActivity).toBe(null);
     activitiesServiceInstance.addNewActivity('test', 'blue', 1);
     activitiesServiceInstance.distractionPressed();
     expect(activitiesServiceInstance.previousActivity).toBe(activitiesServiceInstance.activities[1]);
 
     activitiesServiceInstance.setSelectedActivity(activitiesServiceInstance.activities[1]);
+    expect(activitiesServiceInstance.previousActivity).toBe(null);
+  });
+
+  it('should reset the activities just to distraction', function () {
+    activitiesServiceInstance.previousActivity = {};
+    activitiesServiceInstance.addNewActivity('test', 'blue', 1);
+    activitiesServiceInstance.addNewActivity('test2', 'blue', 1);
+    activitiesServiceInstance.resetActivities();
+    expect(activitiesServiceInstance.activities.length).toBe(1);
+    expect(activitiesServiceInstance.selectedActivity.id).toBe(0);
+  });
+
+  it('shouldn\'t keep a record of previous activity if we havn\'t moved into distraction', function () {
+    activitiesServiceInstance.addNewActivity('test', 'blue', 1);
+    activitiesServiceInstance.setSelectedActivity(activitiesServiceInstance.activities[1]);
+    expect(activitiesServiceInstance.previousActivity).toBe(null);
+  });
+
+  it('should keep a record of previous activity if we have moved into distraction from button press (and then move back)', function () {
+    activitiesServiceInstance.addNewActivity('test', 'blue', 1);
+    activitiesServiceInstance.setSelectedActivity(activitiesServiceInstance.activities[1]);
+    activitiesServiceInstance.distractionPressed();
+    expect(activitiesServiceInstance.previousActivity).toBe(activitiesServiceInstance.activities[1]);
+    expect(activitiesServiceInstance.selectedActivity).toBe(activitiesServiceInstance.activities[0]);
+    activitiesServiceInstance.distractionPressed();
+    expect(activitiesServiceInstance.selectedActivity).toBe(activitiesServiceInstance.activities[1]);
     expect(activitiesServiceInstance.previousActivity).toBe(null);
   });
 

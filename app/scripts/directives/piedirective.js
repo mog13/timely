@@ -16,9 +16,11 @@ angular.module('timelyApp')
         },
       link: function postLink(scope, element, attrs) {
 
-          var backColour = attrs.backcol;
+          //use the backcolor if one was passed through or default to white
+          var backColour = attrs.backcol || '#fff';
+          //hold elements and update them instead of redrawing or refreshing whole chart
           var rapSegs = [];
-          var centralCircle,activeTitle,activePercentage
+          var centralCircle,activeTitle,activePercentage;
           var paper, chart;
 
 
@@ -57,8 +59,16 @@ angular.module('timelyApp')
 
 
             var rad = Math.PI / 180;
-
-
+            /**
+             * return a line giving the segment using the given paramters
+             * @param cx
+             * @param cy
+             * @param r
+             * @param startAngle
+             * @param endAngle
+             * @param n
+             * @returns {string}
+             */
               function getLine(cx, cy, r, startAngle, endAngle,n) {
                 n = n || 0.76;
                 var x1 = cx + r * Math.cos(-startAngle * rad),
@@ -149,6 +159,7 @@ angular.module('timelyApp')
 
           var doughnut = Raphael(holder, 500, 500);
 
+        //we activley need to watch the variable or else the angular cycle does not update it properly
           scope.$watch('segdata', function(value) {
               doughnut.pieChart(250, 250, 150, scope.segdata, "#000");
           },true);
